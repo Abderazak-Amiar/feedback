@@ -2,39 +2,53 @@
     import Card from './shared/Card'
     import {useState} from 'react'
     import Button from './shared/Button'
-    function FeedbackForm() {
-    const [text, setText] = useState("")
-    const [btnDisabled, setbtnDisabled] = useState(true)
-    const [message, setMessage] = useState("")
+    import RatingSelect from './RatingSelect'
 
-    const textHandler = (e) =>{
-    setText(e.target.value);
-    if(text===null){
-        setbtnDisabled(true) 
-        setMessage(null)
+    function FeedbackForm({addFeedback}) {
+        const [text, setText] = useState("")
+        const [rating, setRating] = useState("")
+        const [btnDisabled, setbtnDisabled] = useState(true)
+        const [message, setMessage] = useState("")
 
-    }else if(text!=null && text.trim().length<10){
-        setbtnDisabled(true)
-        setMessage("The Review should be at least 10 chars")
+        const textHandler = (e) =>{
+        setText(e.target.value);
+        if(text===null){
+            setbtnDisabled(true) 
+            setMessage(null)
 
-    }else{
-        setbtnDisabled(false)
-        setMessage(null)
-    }
-    }
-    return (
-    <Card>
-        <form>
-            <h2>Rate our services</h2>
-            <div className="input-group">
-                <input onChange={textHandler} value={text} type="text" />
-                <Button type='submit' isDisabled={btnDisabled}>Send</Button>
-             
-            </div>
-            {message && <div className='message'>{message}</div>}
-        </form>
-    </Card>
-    )
+        }else if(text!=null && text.trim().length<10){
+            setbtnDisabled(true)
+            setMessage("The Review should be at least 10 chars")
+
+        }else{
+            setbtnDisabled(false)
+            setMessage(null)
+        }
+        }
+        const handleSubmite = (e)=>{
+            e.preventDefault()
+            if(text.trim().length > 10){
+                const newFeedback = {
+                    text : text,
+                    rating : rating,
+                }
+                addFeedback(newFeedback);
+            }
+        }
+        return (
+        <Card>
+            <form onSubmit={handleSubmite}>
+                <h2>Rate our services</h2>
+                <RatingSelect select={(rating)=>setRating(rating)}/>
+                <div className="input-group">
+                    <input onChange={textHandler} value={text} type="text" />
+                    <Button type='submit' isDisabled={btnDisabled}>Send</Button>
+                
+                </div>
+                {message && <div className='message'>{message}</div>}
+            </form>
+        </Card>
+        )
     }
 
     export default FeedbackForm

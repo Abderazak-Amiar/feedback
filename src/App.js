@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import {v4 as uuidv4} from 'uuid'
 import Header from './components/Header';
 import FeedbackData from './data/FeedbackData';
 import FeedbackList from './components/FeedbackList';
@@ -12,12 +13,17 @@ function App() {
         const handleDelete = (id)=>{
           setFeedback(feedback.filter((item)=>item.id!==id))
         }
+        const newFeedback = (newFeedback) =>{
+              newFeedback.id = uuidv4()
+            
+              setFeedback([newFeedback,...feedback])
+        }
   
   return (
     <>
     <div className="container">
     <Header text="Reviews" bkgColor="rgba(0,0,0,0.4)" colorText="pink" />
-    <FeedbackForm/>
+    <FeedbackForm addFeedback={newFeedback}/>
     <Feedbackstats feedback={feedback} />
     <FeedbackList feedback={feedback} darkmode={reverse} handleDelete={handleDelete}/>
     </div>
