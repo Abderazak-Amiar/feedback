@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Card from './shared/Card'
 import PropTypes from 'prop-types'
 import {FaTimes} from 'react-icons/fa'
-function FeedbackItem({item, handleDelete}) {
+import FeedbackContext from '../context/FeedbackContext'
+function FeedbackItem({item}) {
 
+  const {handleDelete} = useContext(FeedbackContext)
    
   return (
      <Card>

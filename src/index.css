@@ -228,3 +228,8 @@ input:focus {
     width: 80%;
   }
 }
+
+.active{
+  background-color: #cccccc;
+  color: #ff6a95;
+}

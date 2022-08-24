@@ -1,37 +1,55 @@
 
-import { useState } from 'react';
-import {v4 as uuidv4} from 'uuid'
+
+import {BrowserRouter as Router, Route, Routes, NavLink} from 'react-router-dom'
 import Header from './components/Header';
-import FeedbackData from './data/FeedbackData';
 import FeedbackList from './components/FeedbackList';
 import Feedbackstats from './components/Feedbackstats';
 import FeedbackForm from './components/FeedbackForm';
+import About from './pages/About';
+import AboutIconLink from './components/AboutIconLink';
+import Card from './components/shared/Card';
+import {FeedbackProvider} from './context/FeedbackContext'
+
 function App() {
 
-       const [feedback, setFeedback] = useState(FeedbackData)
-        const reverse = false
-        const handleDelete = (id)=>{
-          setFeedback(feedback.filter((item)=>item.id!==id))
-        }
-        const newFeedback = (newFeedback) =>{
-              newFeedback.id = uuidv4()
-            
-              setFeedback([newFeedback,...feedback])
-        }
-  
+     
+
+    
+
+    
   return (
-    <>
+    <FeedbackProvider>
+    <Router>
+
     <div className="container">
+     
     <Header text="Reviews" bkgColor="rgba(0,0,0,0.4)" colorText="pink" />
-    <FeedbackForm addFeedback={newFeedback}/>
-    <Feedbackstats feedback={feedback} />
-    <FeedbackList feedback={feedback} darkmode={reverse} handleDelete={handleDelete}/>
-    </div>
-    
-         
+    <Routes>
+    <Route exact   path='/' element={
+      <>
+        <FeedbackForm/>
+    <Feedbackstats/>
+    <FeedbackList/>
+      </>
+
+    }>
   
-    </>
+    </Route>
+
+    <Route path='/about' element={<About/>}  />
+    </Routes>
+    <AboutIconLink/>
+  
+    <Card>
+      <NavLink to='/' activeclassname="active">Home</NavLink>
+      <NavLink to='/about' activeclassname="active">About</NavLink>
+    </Card>
     
+    </div>
+
+    </Router> 
+    </FeedbackProvider>
+
   );
 }
 
